@@ -1,0 +1,23 @@
+type Card = {
+  id: string;
+  suit: "coppe" | "spade" | "bastoni" | "denari";
+  value: number | "fante" | "cavallo" | "re";
+};
+
+type Player = {
+  id: string;
+  name: string;
+  hand: Card[];
+  score: number;
+  connected: boolean;
+};
+
+type GameState = {
+  roomId: string;
+  players: Player[];
+  currentPlayerIndex: number;
+  deck: Card[];
+  table: Card[];
+  status: "waiting" | "playing" | "finished";
+  winnerId?: string;
+};
