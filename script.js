@@ -2,11 +2,16 @@ const usernameKey = 'chat-room-user';
 const messageStoreKey = 'chat-room-messages';
 const roomKey = 'chat-room-global';
 
+// Inserisci qui la configurazione del tuo progetto Firebase.
+// La chat funzionerà anche senza Firebase grazie al fallback locale.
 const firebaseConfig = {
   apiKey: 'YOUR_API_KEY',
   authDomain: 'YOUR_PROJECT.firebaseapp.com',
   databaseURL: 'https://YOUR_PROJECT-default-rtdb.firebaseio.com',
   projectId: 'YOUR_PROJECT_ID',
+  storageBucket: 'YOUR_PROJECT.appspot.com',
+  messagingSenderId: '1234567890',
+  appId: '1:1234567890:web:abcdef123456',
 };
 
 const loginForm = document.getElementById('loginForm');
@@ -101,7 +106,6 @@ function registerFallbackRealtime() {
 
   const saved = getStoredMessages();
   loadMessages(saved);
-
   setConnectionState(true, 'Modalità locale attiva');
 }
 
@@ -207,8 +211,7 @@ function sendMessage(event) {
   };
 
   if (isFirebaseEnabled && firebaseDb) {
-    const messageRef = firebaseDb.ref('chat/messages');
-    messageRef.push(payload);
+    sendMessageToFirebase(text);
   } else {
     appendLocalMessage(payload);
   }
